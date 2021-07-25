@@ -20,7 +20,7 @@ pipeline {
         NEXUS_SERVER = "https://nexus-project-devops.dte-ocp46-4uzkfm-915b3b336cabec458a7c7ec2aa7c625f-0000.us-east.containers.appdomain.cloud/repository/npm-group/"
 
         // DO NOT CHANGE THE GLOBAL VARS BELOW THIS LINE
-        APP_NAME = "permissions"
+        APP_NAME = "permissions-api"
     }
 
 
@@ -109,7 +109,7 @@ pipeline {
                 }
                 script{
 					openshift.withCluster(){
-						openshift.tag("${DEV_PROJECT}/permissions:latest", "${STAGE_PROJECT}/permissions:stage")
+						openshift.tag("${DEV_PROJECT}/permissions-api:latest", "${STAGE_PROJECT}/permissions-api:stage")
 					}
 				}
             }
@@ -128,8 +128,8 @@ pipeline {
                 //TODO: Create a new app in stage using the books:stage image stream and expose the service
 				sh '''
 					oc new-app --as-deployment-config \
-					--name permissions \
-					-i permissions:stage \
+					--name permissions-api \
+					-i permissions-api:stage \
 					-n ${STAGE_PROJECT}
 					
 					oc -n ${STAGE_PROJECT} expose svc/${APP_NAME}
